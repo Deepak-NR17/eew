@@ -13,12 +13,13 @@ git 'https://github.com/Deepak-NR17/eew.git'
 }
 }
 
-stage('Build Docker Image'){
-steps{
-script{
-docker.build("${DOCKER_IMAGE}:latest")
-}
-}
+stage('Build Docker Image') {
+    steps {
+        script {
+            def imageName = 'deepaknr17/image1'
+            docker.build("${imageName}:latest")
+        }
+    }
 }
 
 stage('Login to Docker Hub') {

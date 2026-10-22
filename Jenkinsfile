@@ -2,7 +2,7 @@ pipeline{
 agent any
 
 environment{
-DOCKER_IMAGE = "deepaknr17/image1:latest"
+DOCKER_IMAGE = "deepaknr17/image1:v1"
 }
 
 stages{

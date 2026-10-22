@@ -2,7 +2,7 @@ pipeline{
 agent any
 
 environment{
-DOCKER_IMAGE = "deepaknr17/image1"
+DOCKER_IMAGE = "deepaknr17/image1:latest"
 }
 
 stages{
@@ -20,16 +20,19 @@ docker.build("${DOCKER_IMAGE}:latest")
 }
 }
 }
-stage('Login to Docker Hub'){
-steps{
-withCredentials([usernamePassword(
-credentialsId: 'dockerhub-creds',
-usernameVariable: 'DOCKER_USER',
-passwordVariable: 'DOCKER_PASS'
-)]){
-bat 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-}
-}
+
+stage('Login to Docker Hub') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'dockerhub-creds',
+            usernameVariable: 'DOCKER_USER',
+            passwordVariable: 'DOCKER_PASS'
+        )]) {
+            bat '''
+                echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+            '''
+        }
+    }
 }
 
 stage ('Push Docker Image'){

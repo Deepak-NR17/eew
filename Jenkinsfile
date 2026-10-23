@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "deepaknr17/image1:v1"
+        DOCKER_IMAGE = "deepaknr17/image1"
+        IMAGE_TAG = "latest" // Change this to "v1" if you prefer
     }
 
     stages {
@@ -15,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t %DOCKER_IMAGE%:latest .'
+                bat 'docker build -t %DOCKER_IMAGE%:%IMAGE_TAG% .'
             }
         }
 
@@ -28,7 +29,7 @@ pipeline {
                     bat '''
                     @echo off
                     echo %DOCKER_PAT%|docker login -u deepaknr17 --password-stdin
-                   if errorlevel 1 exit /b 1
+                    if errorlevel 1 exit /b 1
                     '''
                 }
             }
@@ -36,7 +37,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                bat 'docker push %DOCKER_IMAGE%:latest'
+                bat 'docker push %DOCKER_IMAGE%:%IMAGE_TAG%'
             }
         }
     }
